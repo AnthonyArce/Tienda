@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.14">
       <PrivateAssets>all</PrivateAssets>
@@ -16,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Data\Csvs\**" CopyToOutputDirectory="PreserveNewest"/>  <!--Es para que copie nuestro archivo csv cuando se haga la compilacion del proyecto-->
     <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Csvs\" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using Infrastructure.Data;
 using Infrastruture.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
         {
             var context = services.GetRequiredService<TiendaContext>();
             await context.Database.MigrateAsync();
+            await TiendaContextSeed.SeedAsync(context, loggerFactory);
         }
         catch (Exception ex)
         {

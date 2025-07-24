@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Configuration
 
         public void Configure(EntityTypeBuilder<Categoria> builder)
         {
-            builder.ToTable("Categoria");
+            builder.ToTable("Categorias");
             builder.Property(p=>p.Id)
                 .IsRequired();
             builder.Property(p => p.Nombre)

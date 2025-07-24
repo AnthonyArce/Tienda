@@ -16,9 +16,9 @@ namespace Infrastruture.Data
 
         }
 
-        public DbSet<Producto> Producto { get; set; }
-        public DbSet<Categoria> categoria { get; set; }
-        public DbSet<Marca> Marca { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

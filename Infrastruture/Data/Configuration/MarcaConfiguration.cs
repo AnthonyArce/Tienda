@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Marca> builder)
         {
-            builder.ToTable("Marca");
+            builder.ToTable("Marcas");
             builder.Property(p => p.Id)
                 .IsRequired();
             builder.Property(p => p.Nombre)
