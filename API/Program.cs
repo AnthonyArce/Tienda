@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<TiendaContext>(option => {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    //na71h4s7ZSs defaultConnection
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
