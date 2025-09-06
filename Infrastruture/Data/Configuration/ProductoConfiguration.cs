@@ -12,6 +12,7 @@ namespace Infrastructure.Data.configuration
 {
     public class ProductoConfiguration: IEntityTypeConfiguration<Producto>
     {
+        //RBuqNWMbMZI
         public void Configure(EntityTypeBuilder<Producto> builder)
         {
             builder.ToTable("Productos");
