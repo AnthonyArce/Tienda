@@ -1,3 +1,4 @@
+using API.Extensions;
 using Infrastructure.Data;
 using Infrastruture.Data;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.ConfigurationCors();
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<TiendaContext>(option => {
@@ -42,6 +43,9 @@ if (app.Environment.IsDevelopment())
             logger.LogError(ex, "Ocurrio un error durante la migracion");
         }
     }
+
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
