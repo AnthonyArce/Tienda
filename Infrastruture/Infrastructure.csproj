@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <!--<Nullable>enable</Nullable>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Data\Csvs\**" CopyToOutputDirectory="PreserveNewest"/>  <!--Es para que copie nuestro archivo csv cuando se haga la compilacion del proyecto-->
+    <None Include="Data\Csvs\**" CopyToOutputDirectory="PreserveNewest" />  <!--Es para que copie nuestro archivo csv cuando se haga la compilacion del proyecto-->
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
