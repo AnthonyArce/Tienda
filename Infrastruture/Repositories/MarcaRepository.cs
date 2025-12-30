@@ -1,6 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
-using Infrastruture.Data;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

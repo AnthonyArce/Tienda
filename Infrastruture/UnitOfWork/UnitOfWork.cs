@@ -1,6 +1,6 @@
 ﻿using Core.Interfaces;
 using Infrastructure.Repositories;
-using Infrastruture.Data;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +25,9 @@ namespace Infrastructure.UnitOfWork
         public IProductoRepository Productos => _productoRepository ??= new ProductoRepository(_context);
         public IMarcaRepository Marcas => _marcaRepository ??= new MarcaRepository(_context);
         public ICategoriaRepository Categorias => _categoriaRepository ??= new CategoriaRepository(_context);
-        public int Save()
+        public async Task<int> SaveAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
         public void Dispose()
         {

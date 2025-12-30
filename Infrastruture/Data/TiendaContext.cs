@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastruture.Data
+namespace Infrastructure.Data
 {
     public class TiendaContext:DbContext
     {

@@ -1,8 +1,7 @@
 using API.Extensions;
+using AspNetCoreRateLimit;
 using Infrastructure.Data;
-using Infrastruture.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +11,7 @@ builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 builder.Services.ConfigurationCors();
 builder.Services.AddControllers();
 builder.Services.AddAplicacionServices();
+builder.Services.ConfigureRateLimitingOptions();
 
 builder.Services.AddDbContext<TiendaContext>(option => {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -23,12 +23,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseIpRateLimiting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
  using (var scope = app.Services.CreateScope())

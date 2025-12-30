@@ -1,14 +1,8 @@
 ﻿using Core.Entities;
 using CsvHelper;
-using Infrastruture.Data;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
