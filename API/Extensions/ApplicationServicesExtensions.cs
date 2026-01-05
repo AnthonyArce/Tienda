@@ -56,7 +56,7 @@ namespace API.Extensions
         {
             services.AddApiVersioning(options =>
             {
-                options.DefaultApiVersion = new ApiVersion(0, 8);
+                options.DefaultApiVersion = new ApiVersion(0, 1);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new HeaderApiVersionReader("X-Version");
                 //options.ApiVersionReader = ApiVersionReader.Combine(   //Sirve para convinar varios métodos de versionamiento

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiVersion(0.8)]
+    [ApiVersion(0.8, Deprecated = true)]
     [ApiVersion(1)]
     //[Route("api/v{version:apiVersion}/[controller]")] //Solo cuando el versionamiento es por URL
     public class DatosProductosController : BaseApiController
