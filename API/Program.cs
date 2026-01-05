@@ -12,6 +12,7 @@ builder.Services.ConfigurationCors();
 builder.Services.AddControllers();
 builder.Services.AddAplicacionServices();
 builder.Services.ConfigureRateLimitingOptions();
+builder.Services.ConfigureApiVersioning();
 
 builder.Services.AddDbContext<TiendaContext>(option => {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

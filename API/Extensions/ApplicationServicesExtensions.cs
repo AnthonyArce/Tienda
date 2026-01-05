@@ -1,4 +1,5 @@
-﻿using AspNetCoreRateLimit;
+﻿using Asp.Versioning;
+using AspNetCoreRateLimit;
 using Core.Interfaces;
 using Infrastructure.UnitOfWork;
 
@@ -49,6 +50,27 @@ namespace API.Extensions
                 };
             });
 
+        }
+
+        public static void ConfigureApiVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(0, 8);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("X-Version");
+                //options.ApiVersionReader = ApiVersionReader.Combine(   //Sirve para convinar varios métodos de versionamiento
+                //    new QueryStringApiVersionReader("v"),
+                //    new HeaderApiVersionReader("X-Version")                  
+                //);
+                options.ReportApiVersions = true;
+
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
         }
     }
 

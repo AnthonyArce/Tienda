@@ -1,4 +1,5 @@
 ﻿using API.DTO;
+using Asp.Versioning;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -8,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [ApiVersion(0.8)]
+    [ApiVersion(1)]
     public class ProductoController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
