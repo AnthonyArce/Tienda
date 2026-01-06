@@ -13,6 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddAplicacionServices();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.ConfigureApiVersioning();
+builder.Services.AddControllers(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
+    options.ReturnHttpNotAcceptable = false; //Cuando esta activa al enviarle atraves de Accept un formato que el servidor no soporte devuelve un 406, por defecto json
+}).AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddDbContext<TiendaContext>(option => {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
