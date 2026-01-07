@@ -1,11 +1,19 @@
-﻿namespace API.Helpers
+﻿using System.Runtime.Serialization;
+
+namespace API.Helpers
 {
-        public class Pager<T> where T : class
-        {
-            public int PageIndex { get; private set; }
-            public int PageSize { get; private set; }
-            public int Total { get; private set; }
-            public string Search { get; private set; }
+    [DataContract]
+    public class Pager<T> where T : class
+    {
+        [DataMember(Order = 1)]
+        public int PageIndex { get; private set; }
+        [DataMember(Order = 2)]
+        public int PageSize { get; private set; }
+        [DataMember(Order = 3)]
+        public int Total { get; private set; }
+        [DataMember(Order = 4)]
+        public string Search { get; private set; }
+        [DataMember(Order = 5)]
         public IEnumerable<T> Registers { get; private set; }
 
             public Pager(IEnumerable<T> registers, int total, int pageIndex, int pageSize, string search)
@@ -16,22 +24,23 @@
                 PageSize = pageSize;
                 Search = search;
         }
-
-            public int TotalPages
+        [DataMember(Order = 6)]
+        public int TotalPages
             {
-                get
-                {
-                    return (int)Math.Ceiling((double)Total / PageSize);
-                }
+            get
+            {
+                return (int)Math.Ceiling((double)Total / PageSize);
+            }
+            private set { }
                
             }
-
-            public bool HasPreviousPage
+        [IgnoreDataMember]
+        public bool HasPreviousPage
             {
                 get { return PageIndex > 1; }
             }
-
-            public bool HasNextPage
+        [IgnoreDataMember]
+        public bool HasNextPage
             {
                 get { return (PageIndex < TotalPages); }
             }

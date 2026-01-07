@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core.Entities
 {
+    
     public class Marca: BaseEntity
     {       
         public string Nombre { get; set; }
+        [XmlIgnore]
         public ICollection<Producto> productos { get; set; }
     }
 }
