@@ -15,6 +15,8 @@ namespace Infrastructure.UnitOfWork
         private IProductoRepository _productoRepository;
         private IMarcaRepository _marcaRepository;
         private ICategoriaRepository _categoriaRepository;
+        private IRolRepository _rolRepository;
+        private IUsuarioRepository _usuarioRepository;
 
 
         public UnitOfWork(TiendaContext context)
@@ -25,6 +27,8 @@ namespace Infrastructure.UnitOfWork
         public IProductoRepository Productos => _productoRepository ??= new ProductoRepository(_context);
         public IMarcaRepository Marcas => _marcaRepository ??= new MarcaRepository(_context);
         public ICategoriaRepository Categorias => _categoriaRepository ??= new CategoriaRepository(_context);
+        public IRolRepository Roles => _rolRepository ??= new RolRepository(_context);
+        public IUsuarioRepository Usuarios => _usuarioRepository ??= new UsuarioRepository(_context);
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();

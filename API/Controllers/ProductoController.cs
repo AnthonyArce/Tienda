@@ -4,12 +4,14 @@ using Asp.Versioning;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiVersion(0.8)]
     [ApiVersion(1)]
+    [Authorize(Roles = "Administrador")]
     public class ProductoController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;

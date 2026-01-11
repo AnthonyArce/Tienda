@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddAplicacionServices();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.ConfigureApiVersioning();
+builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddControllers(options =>
 {
     options.RespectBrowserAcceptHeader = true;
@@ -48,7 +49,8 @@ if (app.Environment.IsDevelopment())
             var context = services.GetRequiredService<TiendaContext>();
             await context.Database.MigrateAsync();
             await TiendaContextSeed.SeedAsync(context, loggerFactory);
-        }
+            await TiendaContextSeed.SeedRolesAsync(context, loggerFactory);
+    }
         catch (Exception ex)
         {
             var logger = loggerFactory.CreateLogger<Program>();
@@ -60,7 +62,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

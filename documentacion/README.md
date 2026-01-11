@@ -28,18 +28,30 @@ Documentación sobre el soporte de respuestas en formato XML. Incluye:
 - Comparación entre JSON y XML
 - Ejemplos de respuestas en ambos formatos
 
+### 4. 🔐 [Sistema de Autenticación y Autorización](./DOCUMENTACION_AUTENTICACION_AUTORIZACION.md)
+Documentación completa sobre el sistema de autenticación JWT y autorización basada en roles. Incluye:
+- Configuración JWT y tokens
+- Registro y login de usuarios
+- Sistema de roles (Administrador, Gerente, Empleado)
+- Autorización en controladores con `[Authorize]`
+- Hash de contraseñas y seguridad
+- Ejemplos completos de uso
+
 ---
 
 ## 🚀 Inicio Rápido
 
 ### Para Desarrolladores Nuevos
 
-1. Comienza leyendo la [documentación de paginación](./DOCUMENTACION_PAGINACION.md) para entender cómo se manejan los datos paginados
-2. Revisa la [documentación de búsqueda](./DOCUMENTACION_BUSQUEDA.md) para entender cómo filtrar resultados
-3. Consulta la [documentación de XML](./DOCUMENTACION_XML.md) si necesitas trabajar con respuestas en formato XML
+1. Comienza leyendo la [documentación de autenticación](./DOCUMENTACION_AUTENTICACION_AUTORIZACION.md) para entender cómo funciona el sistema de seguridad
+2. Revisa la [documentación de paginación](./DOCUMENTACION_PAGINACION.md) para entender cómo se manejan los datos paginados
+3. Consulta la [documentación de búsqueda](./DOCUMENTACION_BUSQUEDA.md) para entender cómo filtrar resultados
+4. Revisa la [documentación de XML](./DOCUMENTACION_XML.md) si necesitas trabajar con respuestas en formato XML
 
 ### Para Integración con la API
 
+- **Autenticación**: Registra usuarios con `POST /api/Usuario/register` y obtén tokens con `POST /api/Usuario/token`
+- **Autorización**: Usa el header `Authorization: Bearer {token}` en solicitudes protegidas
 - **Paginación**: Usa los parámetros `PageIndex` y `PageSize` en la query string
 - **Búsqueda**: Usa el parámetro `Search` en la query string
 - **Formato**: Especifica el formato deseado mediante el header `Accept: application/json` o `Accept: application/xml`
@@ -50,10 +62,11 @@ Documentación sobre el soporte de respuestas en formato XML. Incluye:
 
 ```
 documentacion/
-├── README.md                      # Este archivo
-├── DOCUMENTACION_PAGINACION.md    # Documentación de paginación
-├── DOCUMENTACION_BUSQUEDA.md      # Documentación de búsqueda
-└── DOCUMENTACION_XML.md           # Documentación de soporte XML
+├── README.md                              # Este archivo
+├── DOCUMENTACION_PAGINACION.md            # Documentación de paginación
+├── DOCUMENTACION_BUSQUEDA.md              # Documentación de búsqueda
+├── DOCUMENTACION_XML.md                   # Documentación de soporte XML
+└── DOCUMENTACION_AUTENTICACION_AUTORIZACION.md  # Documentación de autenticación y autorización
 ```
 
 ---
@@ -81,4 +94,5 @@ documentacion/
 **Última actualización:** Enero 2025
 
 </div>
+
 

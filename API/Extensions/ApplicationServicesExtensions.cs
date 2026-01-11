@@ -1,7 +1,13 @@
-﻿using Asp.Versioning;
+﻿using API.Helpers;
+using API.Services;
+using Asp.Versioning;
 using AspNetCoreRateLimit;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
 {
@@ -23,6 +29,8 @@ namespace API.Extensions
             //services.AddScoped<IProductoRepository, ProductoRepository>();
             //services.AddScoped<IMarcaRepository, MarcaRepository>();
             //ddddddd;  Al usar UnitOfWork ya no es necesario registrar cada repositorio
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
@@ -72,6 +80,37 @@ namespace API.Extensions
                 options.SubstituteApiVersionInUrl = true;
             });
         }
+        public static void AddJwt(this IServiceCollection services, IConfiguration configuration) 
+        {
+            //Configuracion from AppSettings
+            services.Configure<JWT>(configuration.GetSection("JWT"));
+
+            //Adding Authentication - JWT
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.RequireHttpsMetadata = false;
+                o.SaveToken = false;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = configuration["JWT:Issuer"],
+                    ValidAudience = configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JWT:Key"]!))
+                };
+            });
+        }
+
+
+
+
     }
 
 
