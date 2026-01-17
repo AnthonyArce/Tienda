@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Cryptography;
 
 namespace API.Services
 {
@@ -93,7 +94,23 @@ namespace API.Services
                     datosUsuarioDTO.Email = usuario.Email;
                     datosUsuarioDTO.Roles = usuario.Roles.Select(u => u.Nombre).ToList();
 
-                    return datosUsuarioDTO;
+                    if (usuario.RefreshTokens.Any(a => a.IsActive))
+                    {
+                        var activeRefreshToken = usuario.RefreshTokens.Where(x => x.IsActive).FirstOrDefault();
+                        datosUsuarioDTO.RefreshToken = activeRefreshToken.Token;
+                        datosUsuarioDTO.RefreshTokenExpirete = activeRefreshToken.Expires;
+                    }
+                    else 
+                    {
+                        var refresthToken =  CreateRefreshToken();
+                        datosUsuarioDTO.RefreshToken = refresthToken.Token;
+                        datosUsuarioDTO.RefreshTokenExpirete = refresthToken.Expires;
+                        usuario.RefreshTokens.Add(refresthToken);
+                        _unitOfWork.Usuarios.Update(usuario);
+                        await _unitOfWork.SaveAsync();
+                    }
+
+                        return datosUsuarioDTO;
                 }
                 else
                 {
@@ -148,7 +165,61 @@ namespace API.Services
             return $"Las credenciales del usuario {addRoleDTO.UserName} son incorrectas";
         }
 
-        public JwtSecurityToken CreateJwtToken(Usuario usuario)
+        public async Task<DatosUsuarioDTO> RefreshTokenAsync(string refreshToken)
+        {
+            var datosUsuarioDTO = new DatosUsuarioDTO();
+            var usuario = await _unitOfWork.Usuarios.GetByRefreshTokenAsync(refreshToken);
+                            
+            if (usuario == null)
+            {
+                datosUsuarioDTO.EstaAutenticado = false;
+                datosUsuarioDTO.Mensaje = "El refresh token no es válido";
+                return datosUsuarioDTO;
+            }
+
+            var refreshTokenDB = usuario.RefreshTokens.Single(x => x.Token == refreshToken);
+
+            if (!refreshTokenDB.IsActive)
+            {
+                datosUsuarioDTO.EstaAutenticado = false;
+                datosUsuarioDTO.Mensaje = "El refresh token no es válido";
+                return datosUsuarioDTO;
+            }
+            //Revocar el refresh token actual y generar uno nuevo
+            refreshTokenDB.Revoked = DateTime.UtcNow;
+            //Generar uno nuevo y lo guardamos en la base de datos
+            var nuevoRefreshToken = CreateRefreshToken();
+            usuario.RefreshTokens.Add(nuevoRefreshToken);
+            _unitOfWork.Usuarios.Update(usuario);
+            await _unitOfWork.SaveAsync();
+            //Generamos un nuevo JWT 🥰
+            datosUsuarioDTO.EstaAutenticado = true;
+            JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
+            datosUsuarioDTO.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            datosUsuarioDTO.Email = usuario.Email;
+            datosUsuarioDTO.UserName = usuario.Username;
+            datosUsuarioDTO.Roles = usuario.Roles.Select(u => u.Nombre).ToList();
+            datosUsuarioDTO.RefreshToken = nuevoRefreshToken.Token;
+            datosUsuarioDTO.RefreshTokenExpirete = nuevoRefreshToken.Expires;
+            datosUsuarioDTO.Mensaje = "El token ha sido renovado exitosamente";
+            return datosUsuarioDTO; 
+        }
+        private RefreshToken CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var generator = RandomNumberGenerator.Create())
+            {
+                generator.GetBytes(randomNumber);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomNumber),
+                    Expires = DateTime.UtcNow.AddDays(10),
+                    Created = DateTime.UtcNow
+                };
+            }
+        }
+
+        private JwtSecurityToken CreateJwtToken(Usuario usuario)
         {
             var roles = usuario.Roles;
             var roleClaims = new List<Claim>();

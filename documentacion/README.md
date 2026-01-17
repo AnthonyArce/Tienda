@@ -37,6 +37,15 @@ Documentación completa sobre el sistema de autenticación JWT y autorización b
 - Hash de contraseñas y seguridad
 - Ejemplos completos de uso
 
+### 5. 🔄 [Sistema de Refresh Token](./DOCUMENTACION_REFRESH_TOKEN.md)
+Documentación sobre el sistema de renovación de tokens mediante Refresh Tokens. Incluye:
+- Conceptos de Refresh Token y rotación de tokens
+- Implementación de renovación automática
+- Almacenamiento seguro en cookies HTTP-only
+- Gestión de múltiples tokens activos
+- Flujo completo de autenticación con renovación
+- Ejemplos prácticos de uso
+
 ---
 
 ## 🚀 Inicio Rápido
@@ -44,13 +53,15 @@ Documentación completa sobre el sistema de autenticación JWT y autorización b
 ### Para Desarrolladores Nuevos
 
 1. Comienza leyendo la [documentación de autenticación](./DOCUMENTACION_AUTENTICACION_AUTORIZACION.md) para entender cómo funciona el sistema de seguridad
-2. Revisa la [documentación de paginación](./DOCUMENTACION_PAGINACION.md) para entender cómo se manejan los datos paginados
-3. Consulta la [documentación de búsqueda](./DOCUMENTACION_BUSQUEDA.md) para entender cómo filtrar resultados
-4. Revisa la [documentación de XML](./DOCUMENTACION_XML.md) si necesitas trabajar con respuestas en formato XML
+2. Revisa la [documentación de Refresh Token](./DOCUMENTACION_REFRESH_TOKEN.md) para entender cómo se renuevan los tokens
+3. Consulta la [documentación de paginación](./DOCUMENTACION_PAGINACION.md) para entender cómo se manejan los datos paginados
+4. Revisa la [documentación de búsqueda](./DOCUMENTACION_BUSQUEDA.md) para entender cómo filtrar resultados
+5. Consulta la [documentación de XML](./DOCUMENTACION_XML.md) si necesitas trabajar con respuestas en formato XML
 
 ### Para Integración con la API
 
 - **Autenticación**: Registra usuarios con `POST /api/Usuario/register` y obtén tokens con `POST /api/Usuario/token`
+- **Renovación de Token**: Renueva tokens expirados con `POST /api/Usuario/refreshtoken` (usa cookie automáticamente)
 - **Autorización**: Usa el header `Authorization: Bearer {token}` en solicitudes protegidas
 - **Paginación**: Usa los parámetros `PageIndex` y `PageSize` en la query string
 - **Búsqueda**: Usa el parámetro `Search` en la query string
@@ -66,7 +77,8 @@ documentacion/
 ├── DOCUMENTACION_PAGINACION.md            # Documentación de paginación
 ├── DOCUMENTACION_BUSQUEDA.md              # Documentación de búsqueda
 ├── DOCUMENTACION_XML.md                   # Documentación de soporte XML
-└── DOCUMENTACION_AUTENTICACION_AUTORIZACION.md  # Documentación de autenticación y autorización
+├── DOCUMENTACION_AUTENTICACION_AUTORIZACION.md  # Documentación de autenticación y autorización
+└── DOCUMENTACION_REFRESH_TOKEN.md         # Documentación de Refresh Token
 ```
 
 ---

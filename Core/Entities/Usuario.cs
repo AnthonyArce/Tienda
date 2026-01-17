@@ -16,7 +16,8 @@ namespace Core.Entities
         public string Password { get; set; }
         public ICollection<Rol> Roles = new HashSet<Rol>();
         public ICollection<UsuariosRoles> UsuariosRoles { get; set; }
-       
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
+
 
     }
 }

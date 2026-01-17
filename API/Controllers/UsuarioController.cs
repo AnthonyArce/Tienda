@@ -1,6 +1,7 @@
 ﻿using API.DTO;
 using API.Services;
 using Asp.Versioning;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -33,6 +34,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetTokenAsync(LoginDTO loginDTO)
         {
             var resultado = await _userServices.GetTokenAsync(loginDTO);
+            SetRefreshTokenInCookie(resultado.RefreshToken);
             if (resultado == null)
             {
                 return Unauthorized("Credenciales incorrectas");
@@ -52,6 +54,26 @@ namespace API.Controllers
             {
                 return BadRequest(result);
             }
+        }
+        [HttpPost("refreshtoken")]
+        public async Task<IActionResult> RefreshTokenAsync()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var resultado = await _userServices.RefreshTokenAsync(refreshToken);
+            if (!string.IsNullOrEmpty(resultado.RefreshToken))
+                SetRefreshTokenInCookie(resultado.RefreshToken);
+            
+            return Ok(resultado);
+        }
+
+        private void SetRefreshTokenInCookie(string refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(10)
+            };
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
     }
 }
